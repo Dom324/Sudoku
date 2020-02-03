@@ -6,12 +6,43 @@
 	int line[10];
 	int sudoku[10][10];
 	int sudoku_poss[10][10][10] = {1};
+	int checksumSud = 1;
+	int checksumPoss = 1;
 	int hura = 0;
 	int hura2 = 0;
 	int hura3 = 0;
 	int hura4 = 0;
 	int hura5 = 0;
 
+void checksumSudF(){
+	
+	checksumSud = 0;
+	
+	for(int i = 1; i < 10; i++){
+		
+		for(int j = 1; j < 10; j++){
+			
+			checksumSud = checksumSud + sudoku[i][j];
+		
+		}	
+	}
+}
+
+void checksumPossF(){
+	
+	checksumPoss = 0;
+	
+	for(int i = 1; i < 10; i++){
+		
+		for(int j = 1; j < 10; j++){
+			
+			for(int g = 1; g < 10; g++){
+			
+				checksumPoss = checksumPoss + sudoku_poss[i][j][g];
+			}
+		}	
+	}
+}
 
 int ipow(int base, int exp){				//mocnina
     int result = 1;
@@ -27,7 +58,7 @@ int ipow(int base, int exp){				//mocnina
     return result;
 }
 
-int clear_pos(int ii, int jj){
+void clear_pos(int ii, int jj){
 	
 	for(int dd = 1; dd < 10; dd++){
 		
@@ -36,104 +67,113 @@ int clear_pos(int ii, int jj){
 	}
 }
 
-int print_grid(){							//vytisknuti gridu
+void print_grid(){							//vytisknuti gridu
 
-
+	printf("  _______________________\n");
 	for(int i = 1; i < 10; i++){
 			
 		if(i == 4 || i == 7){
-			printf("\n");
+			printf(" |———————|———————|———————|\n");
 		}
+		
+		printf(" |");
 		
 	for(int j = 1; j < 10; j++) {
 		
 		if(j == 4 || j == 7){
-			printf(" ");
+			printf(" |");
 		}
 		
-		printf("%d ", sudoku[i][j]);
+		printf(" %d", sudoku[i][j]);
 		
 	}
-	printf("\n");
+	printf(" |\n");
 	}
+	printf("  ¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯\n\n");
 }
 
-int print_possibilities(){
+void print_possibilities(){
 	
 	
 	for(int i = 1; i < 10; i++){
 			
-		if(i == 4 || i == 7){
-			printf("\n");
-		}
+		if(i == 1 || i == 4 || i == 7){
+			printf("  _______________________   _______________________   _______________________\n");
+		} 
 		
 	for(int j = 1; j < 10; j++) {
 		
-		if(sudoku[i][j] != 0){printf("x x x ");}else{
+		if(j == 1 || j == 4 || j == 7){
+			printf(" |");
+		}
+		
+		if(sudoku[i][j] != 0){printf(" x x x");}else{
 		for(int dd = 1; dd < 4; dd++){
 			if(sudoku_poss[i][j][dd] == 1){
-				printf("%d ", dd);
+				printf(" %d", dd);
 			}
 			else{
-				printf("x ");
+				printf(" x");
 			}
 		}
 		}
-		printf(" ");
+		printf(" |");
 		
-		if(j == 3 || j == 6){
-			printf("  ");
-		}
 	}
-	printf("\n");
+	printf("\n |");
 	
 	for(int j = 1; j < 10; j++) {
 		
-		if(sudoku[i][j] != 0){printf("x x x ");}else{
+		if(sudoku[i][j] != 0){printf(" x x x");}else{
 		for(int dd = 4; dd < 7; dd++){
 			if(sudoku_poss[i][j][dd] == 1){
-				printf("%d ", dd);
+				printf(" %d", dd);
 			}
 			else{
-				printf("x ");
+				printf(" x");
 			}
 		}
 		}
-		printf(" ");
+		printf(" |");
 		
 		if(j == 3 || j == 6){
-			printf("  ");
+			printf(" |");
 		}
 	}
-	printf("\n");
+	printf("\n |");
 	
 	for(int j = 1; j < 10; j++) {
 		
-		if(sudoku[i][j] != 0){printf("x x x ");}else{
+		if(sudoku[i][j] != 0){printf(" x x x");}else{
 		for(int dd = 7; dd < 10; dd++){
 			if(sudoku_poss[i][j][dd] == 1){
-				printf("%d ", dd);
+				printf(" %d", dd);
 			}
 			else{
-				printf("x ");
+				printf(" x");
 			}
 		}
 		}
-		printf(" ");
+		printf(" |");
 		
 		if(j == 3 || j == 6){
-			printf("  ");
+			printf(" |");
 		}
 	}
-	printf("\n");
-	printf("\n");
+	if(i == 3 || i == 6 || i == 9){
+			printf("\n  ¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯   ¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯   ¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯\n");
+	}
+	else{
+		printf("\n |———————|———————|———————| |———————|———————|———————| |———————|———————|———————|");
+		printf("\n");
+	}
 	
 	
 	}
 
 }
 
-int possible_values(){
+void possible_values(){
 	
 	for(int ii = 1; ii < 10; ii++){
 		for(int jj = 1; jj < 10; jj++){
@@ -179,7 +219,7 @@ int possible_values(){
 	}
 }
 
-int same_line_column(){
+void same_line_column(){
 	
 	for(int dd = 1; dd < 10; dd++){
 		for(int ii = 1; ii < 10; ii++){										//jedine moznosti v radku jsou v jednom ctverci
@@ -284,7 +324,7 @@ int same_line_column(){
 	}
 }
 
-int same_square(){
+void same_square(){
 	
 	for(int dd = 1; dd < 10; dd++){
 		
@@ -391,7 +431,7 @@ int same_square(){
 	}
 }
 
-int pair(){	
+void pair(){	
 
 	for(int jj = 1; jj < 10; jj++){									//par ve sloupci
 	
@@ -546,7 +586,7 @@ int pair(){
 	
 }	
 	
-int only_option(){
+void only_option(){
 
 	for(int dd = 1; dd < 10; dd++){
 		for(int ii = 1; ii < 10; ii++){								//jedina moznost v radku
@@ -627,7 +667,7 @@ int only_option(){
 	}
 }
 	
-int only_possibility(){
+void only_possibility(){
 	
 	for(int ii = 1; ii < 10; ii++){
 		
@@ -702,11 +742,12 @@ int main(){
 	}
 	
 	
-	printf("\nUvodni hodnoty: \n");
+	printf("\nUvodni hodnoty: \n\n");
 	print_grid();
+		
+	int checksumSudOLD = 0, checksumPossOLD = 0, i = 1;
 	
-	
-	for(int i = 0; i < 9; i++){
+	while((checksumSud != checksumSudOLD || checksumPoss != checksumPossOLD) && checksumSud != 405){
 		
 		possible_values();
 		same_line_column();
@@ -724,5 +765,13 @@ int main(){
 		print_possibilities();
 		
 		printf("\nhura %d \n hura2 %d \n hura3 %d \n hura4 %d \n hura5 %d \n", hura, hura2, hura3, hura4, hura5);
+		
+		checksumSudOLD = checksumSud;
+		checksumPossOLD = checksumPoss;
+		
+		checksumSudF();
+		checksumPossF();
+		i++;
+		printf("\nchecksum %d \n", checksumSud);
 	}
 }
