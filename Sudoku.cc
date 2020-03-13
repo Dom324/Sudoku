@@ -695,6 +695,15 @@ void only_possibility(){
 
 int main(){
 	
+	/*int run;
+	
+	do{
+		
+		scanf("%d", &run);
+		
+		
+	}while(run == 0);*/
+	
 	for(int ii = 1; ii < 10; ii++){			//nacteni cisel do gridu
 		//printf("Zadej %d radek \n", ii);
 		//scanf("%d", &line[ii]);
